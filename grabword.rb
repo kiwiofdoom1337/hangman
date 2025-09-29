@@ -1,6 +1,4 @@
 class Grabword
-  attr_accessor :f
-
   def initialize
     @file = 'dictionary.txt'
   end
@@ -13,6 +11,3 @@ class Grabword
     arr.sample    
   end
 end
-
-a = Grabword.new
-puts a.random_word(a.words)
