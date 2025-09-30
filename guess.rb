@@ -1,13 +1,12 @@
-require 'json'
-require_relative "grabword"
 class Guess
-  attr_accessor :secret_word, :random_word, :secret_progress, :load_info
+  attr_accessor :secret_word, :random_word, :secret_progress, :load_info, :turns
+
   def initialize
     @secret_word = []
     @secret_progress = []
-    @player_guess = []
     @random_word = Grabword.new
     @load_info = {}
+    @turns = 10
   end
 
   def make_secret_word
@@ -30,19 +29,20 @@ class Guess
   end
 
   def save_game
-    save_data = {:secret_word => @secret_word, :secret_progress => @secret_progress}
+    save_data = { secret_word: @secret_word, secret_progress: @secret_progress, turns: @turns }
     data_json = save_data.to_json
-    save_file = File.open('save_data.json', 'w')
+    save_file = File.open("save_data.json", "w")
     save_file.puts data_json
     save_file.close
   end
 
   def load_game
-    load_file = File.open('save_data.json', 'r')
+    load_file = File.open("save_data.json", "r")
     load_data = load_file.gets
     @load_info = JSON.parse(load_data)
     load_file.close
     @secret_word = @load_info["secret_word"]
     @secret_progress = @load_info["secret_progress"]
+    @turns = @load_info["turns"]
   end
 end
