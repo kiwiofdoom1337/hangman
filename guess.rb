@@ -1,6 +1,5 @@
 require 'json'
 require_relative "grabword"
-require "pry"
 class Guess
   attr_accessor :secret_word, :random_word, :secret_progress, :load_info
   def initialize
@@ -11,24 +10,23 @@ class Guess
     @load_info = {}
   end
 
-  def secret_word
+  def make_secret_word
     word = @random_word.random_word(@random_word.words).strip.chars
     @secret_word = word
   end
 
-  def secret_progress
+  def make_secret_progress
     @secret_word.length.times do
       @secret_progress.push("_")
     end
-    @secret_progress
   end
 
   def form_word
-    guess.secret_word.join(" ")
+    p @secret_word.join(" ")
   end
 
   def form_progress
-    guess.secret_progress.join(" ")
+    p @secret_progress.join(" ")
   end
 
   def save_game
@@ -44,7 +42,7 @@ class Guess
     load_data = load_file.gets
     @load_info = JSON.parse(load_data)
     load_file.close
-    @secret_word = @load_info[:secret_word]
-    @secret_progress = @load_info[:secret_progress]
+    @secret_word = @load_info["secret_word"]
+    @secret_progress = @load_info["secret_progress"]
   end
 end
